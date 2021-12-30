@@ -1,0 +1,18 @@
+{
+  "name": "microservices",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Haris Beslic",
+    "email": "harisbeslic32@gmail.com"
+  },
+  "workspaces": {
+    "packages": ["packages/*", "services/*"]
+  },
+  "scripts": {
+    "build": "yarn workspaces run build"
+  },
+  "devDependencies": {}
+}

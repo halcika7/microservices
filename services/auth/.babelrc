@@ -1,0 +1,41 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    ["@babel/preset-typescript", { "onlyRemoveTypeImports": true }]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-syntax-dynamic-import",
+    [
+      "babel-plugin-root-import",
+      {
+        "paths": [
+          {
+            "rootPathSuffix": "./src/models",
+            "rootPathPrefix": "@model/"
+          },
+          {
+            "rootPathSuffix": "./src/lib",
+            "rootPathPrefix": "@lib/"
+          },
+          {
+            "rootPathSuffix": "./src/repositories",
+            "rootPathPrefix": "@repository/"
+          },
+          {
+            "rootPathSuffix": "./src/services",
+            "rootPathPrefix": "@service/"
+          },
+          {
+            "rootPathSuffix": "./src/controllers",
+            "rootPathPrefix": "@controller/"
+          },
+          {
+            "rootPathSuffix": "./src/types/index",
+            "rootPathPrefix": "@types"
+          }
+        ]
+      }
+    ]
+  ]
+}

@@ -1,0 +1,11 @@
+node_modules
+dist
+build
+logs
+.DS_Store
+.env.*
+**/.env
+.yarn
+coverage
+docs
+.next

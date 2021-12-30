@@ -1,0 +1,25 @@
+{
+  "name": "@packages/logger",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@packages/errors": "1.0.0",
+    "morgan": "^1.10.0",
+    "winston": "^3.3.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "lint": "eslint . --ext .ts --fix --ignore-path ../../.eslintignore",
+    "format": "prettier --write . --ignore-path ../../.prettierignore",
+    "doc": "jsdoc -c jsdoc.json"
+  },
+  "devDependencies": {
+    "@types/morgan": "^1.9.3",
+    "better-docs": "^2.3.2",
+    "jsdoc": "^3.6.7"
+  }
+}

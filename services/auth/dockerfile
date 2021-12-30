@@ -1,0 +1,15 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY package.docker.json package.json
+COPY yarn.lock .
+COPY tsconfig.json .
+COPY ./packages ./packages
+COPY ./services/auth ./services/auth
+
+RUN yarn
+
+RUN yarn build
+
+CMD ["yarn", "--cwd", "services/auth", "start"]

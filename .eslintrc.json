@@ -1,0 +1,57 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "jest": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "extends": [
+    "plugin:@shopify/esnext",
+    "plugin:@shopify/react",
+    "plugin:@shopify/typescript",
+    "plugin:@shopify/prettier",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:security/recommended",
+    "eslint:recommended",
+    "next"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier",
+    "react-hooks",
+    "security",
+    "jsdoc",
+    "jsx-a11y"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "no-process-env": 0,
+    "no-unused-vars": 0,
+    "no-console": "warn",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-extraneous-class": "off",
+    "@typescript-eslint/consistent-indexed-object-style": ["error", "record"],
+    "@typescript-eslint/no-explicit-any": 1,
+    "@typescript-eslint/naming-convention": 0,
+    "@typescript-eslint/no-unused-vars": 0
+  }
+}

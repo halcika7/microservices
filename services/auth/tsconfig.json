@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": ".",
+    "lib": ["ESNext", "dom"],
+    "paths": {
+      "@model/*": ["src/models/*"],
+      "@lib/*": ["src/lib/*"],
+      "@repository/*": ["src/repositories/*"],
+      "@service/*": ["src/services/*"],
+      "@controller/*": ["src/controllers/*"],
+      "@types": ["src/types/index"]
+    }
+  },
+  "include": ["src/**/*", "__tests__/**/*"],
+  "exclude": ["node_modules", "logs"]
+}

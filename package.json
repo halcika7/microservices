@@ -1,0 +1,53 @@
+{
+  "name": "microservices",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Haris Beslic",
+    "email": "harisbeslic32@gmail.com"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "services/*"
+    ]
+  },
+  "scripts": {
+    "build": "yarn workspaces run build",
+    "lint": "yarn workspaces run lint",
+    "test": "yarn workspaces run test",
+    "test:coverage": "yarn workspaces run test:coverage",
+    "format": "yarn workspaces run format",
+    "prepare": "husky install",
+    "proba": "git add . && git commit -m ${npm_config_message} && npm version ${npm_config_version} && npm run build && npm publish",
+    "proba2": "echo ${npm_config_message} ${npm_config_version}"
+  },
+  "lint-staged": {
+    "packages/**/*.{ts,tsx,.json,.env,.babelrc}": [
+      "yarn run --silent lint",
+      "yarn run --silent format",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@shopify/eslint-plugin": "^41.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
+    "eslint": "^8.5.0",
+    "eslint-config-next": "12.0.7",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsdoc": "^37.4.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-security": "^1.4.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.4",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.4"
+  }
+}

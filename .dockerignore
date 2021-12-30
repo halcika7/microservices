@@ -1,0 +1,7 @@
+logs
+docs
+node_modules
+__tests__
+coverage
+.next
+dit

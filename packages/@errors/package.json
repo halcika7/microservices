@@ -1,0 +1,22 @@
+{
+  "name": "@packages/errors",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "lint": "eslint . --ext .ts --fix --ignore-path ../../.eslintignore",
+    "format": "prettier --write . --ignore-path ../../.prettierignore",
+    "doc": "jsdoc -c jsdoc.json"
+  },
+  "dependencies": {
+    "express-validator": "^6.14.0"
+  },
+  "devDependencies": {
+    "better-docs": "^2.3.2",
+    "jsdoc": "^3.6.7"
+  }
+}
