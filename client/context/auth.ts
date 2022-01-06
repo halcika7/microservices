@@ -2,6 +2,10 @@ import { createContext } from 'react';
 
 import { DecodedToken } from '../lib/decode';
 
-export const AuthContext = createContext(
-  {} as DecodedToken | Record<string, unknown>
-);
+type UserType = DecodedToken | Record<string, unknown>;
+interface IContext {
+  user: UserType;
+  setUser: (val: DecodedToken) => void;
+}
+
+export const AuthContext = createContext({} as IContext);

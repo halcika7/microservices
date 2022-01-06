@@ -1,13 +1,9 @@
-import request from 'supertest';
+import { request } from '../__mocks__';
 
-import server from '../../src';
-
-export const signOut = () => {
-  it('should sign out user', () => {
-    return request(server).post('/api/users/v1/sign-out').expect(200);
-  });
-
-  afterAll(() => {
-    server.close();
+export const signout = () => {
+  describe('Testing sign out route', () => {
+    it('should sign out user', () => {
+      return request.post({ url: 'users/v1/sign-out' }).expect(200);
+    });
   });
 };

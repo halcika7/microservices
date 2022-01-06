@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Header = ({ onSignOut }: Props) => {
-  const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   return (
     <nav className="navbar navbar-light bg-light">
       <Link href="/" passHref>

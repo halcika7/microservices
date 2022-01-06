@@ -34,14 +34,13 @@ export class SignIn {
    */
   async signIn(req: Request, res: Response, next: NextFunction) {
     try {
-      await this.signInService.signIn(req.body, res);
+      const token = await this.signInService.signIn(req.body, res);
 
       return new ResponseBuilder<string>(res)
-        .setData('Signed in')
+        .setData(token)
         .setResponseStatus(HttpCode.Ok)
         .build();
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.log(
         '🚀 ~ file: signin.controller.ts ~ line 44 ~ SignIn ~ signIn ~ error',
         error

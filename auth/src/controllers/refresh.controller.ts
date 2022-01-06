@@ -3,10 +3,8 @@ import { ResponseBuilder } from '@halcika-micro/common';
 import { BadRequest, HttpCode } from '@halcika-micro/errors';
 // types
 import { NextFunction, Request, Response } from 'express';
-import { env } from '@types';
 // services
 import { RefreshService } from '@service/refresh.service';
-import { LoggerFactory } from '@halcika-micro/logger';
 
 /**
  * @export
@@ -18,11 +16,6 @@ export class Refresh {
    * @memberof Refresh
    */
   private readonly refreshService = RefreshService.instance;
-
-  private readonly logger = LoggerFactory.getLogger(
-    'Refresh Controller',
-    env.env
-  );
 
   /**
    * Creates an instance of Refresh.
@@ -49,10 +42,6 @@ export class Refresh {
         .setResponseStatus(HttpCode.Ok)
         .build();
     } catch (error) {
-      this.logger.error(
-        error,
-        '🚀 ~ file: refresh.controller.ts ~ line 46 ~ Refresh ~ refresh ~ error'
-      );
       if (isFirstCheck) return next(new BadRequest());
       return next(error);
     }

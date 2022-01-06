@@ -1,9 +1,21 @@
-import { signup } from './signup.spec';
-import { signIn } from './signin.spec';
-import { signOut } from './sign-out.spec';
-import { refresh } from './refresh.spec';
+import mongoose from 'mongoose';
 
-describe('Testing signup', signup);
-describe('Testing sign-in', signIn);
-describe('Testing sign-out', signOut);
-describe('Testing refresh', refresh);
+import { cleanup } from '../__mocks__';
+
+import { refresh } from './refresh.spec';
+import { signup } from './signup.spec';
+import { signout } from './sign-out.spec';
+import { signin } from './signin.spec';
+
+describe('Testing routes', () => {
+  afterAll(async () => {
+    cleanup();
+    await mongoose.connection.dropCollection('users');
+    await mongoose.connection.close();
+  });
+
+  signup();
+  signin();
+  signout();
+  refresh();
+});

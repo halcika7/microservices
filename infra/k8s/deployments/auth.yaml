@@ -23,6 +23,8 @@ spec:
             memory: "128Mi"
             cpu: "500m"
         env:
+          - name: MONGO_URI
+            value: 'mongodb://auth-mongo-srv:27017/auth'
           - name: access_secret
             valueFrom:
               secretKeyRef:

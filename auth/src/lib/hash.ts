@@ -7,7 +7,7 @@ const scryptAsync = promisify(scrypt);
  * @export
  * @class Hash
  */
-export abstract class Hash {
+export class Hash {
   /**
    * @static
    * @param {string} value
@@ -34,4 +34,6 @@ export abstract class Hash {
 
     return buf.toString('hex') === value;
   }
+
+  private constructor() {}
 }

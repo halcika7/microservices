@@ -1,12 +1,12 @@
-// import { useContext } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { AxiosError } from 'axios';
 
 import { buildClient } from '../../lib/base_axios';
-// import { AuthContext } from '../../context/auth';
 
 const schema = yup
   .object({
@@ -20,10 +20,15 @@ interface Form {
   password: string;
 }
 
+interface ErrorResponse {
+  type: string;
+  message: string;
+  errors?: Record<string, string>;
+}
+
 const SignUp: NextPage = () => {
-  // const theme = useContext(AuthContext);
-  // console.log('🚀 ~ file: signup.tsx ~ line 25 ~ theme', theme);
   const axios = buildClient();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -36,14 +41,19 @@ const SignUp: NextPage = () => {
 
   const onSubmit: SubmitHandler<Form> = async signupData => {
     clearErrors();
-    const { data } = await axios.post<{
-      errors?: Record<'email' | 'password', string>;
-    }>('/users/v1/sign-up', signupData);
-
-    if (data.errors) {
-      Object.entries(data.errors).forEach(([key, value]) => {
-        setError(key as keyof Form, { message: value });
-      });
+    try {
+      await axios.post<{
+        errors?: Record<'email' | 'password', string>;
+      }>('/users/v1/sign-up', signupData);
+      router.push('/auth/signin');
+    } catch (err) {
+      const error = err as AxiosError;
+      const server = error.response?.data as ErrorResponse;
+      if (server.errors) {
+        Object.entries(server.errors).forEach(([key, value]) => {
+          setError(key as keyof Form, { message: value });
+        });
+      }
     }
   };
 

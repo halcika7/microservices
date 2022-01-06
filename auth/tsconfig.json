@@ -42,6 +42,6 @@
       "@types": ["src/types/index"]
     }
   },
-  "include": ["src/**/*", "__tests__/**/*"],
+  "include": ["src/**/*", "__tests__/**/*", "jest/*.ts"],
   "exclude": ["node_modules", "logs"]
 }

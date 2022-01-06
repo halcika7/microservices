@@ -10,24 +10,28 @@ const server = new Server(3000, routes);
 
 const logger = LoggerFactory.getLogger('Auth Index', env.env ?? 'development');
 
-// const cb =
-//   env.env === 'test' || !env.env
-//     ? () =>
-//         connectMongo(
-//           'mongodb+srv://halc:j59v4l4daA6li7dY@print-shop.la9iv.mongodb.net/auth'
-//         )
-//     : () => connectMongo('mongodb://auth-mongo-srv:27017/auth');
+const cb =
+  env.env === 'test' || !env.env
+    ? () =>
+        connectMongo(
+          'mongodb+srv://halc:Q7BtBSWVrrvh4vry@print-shop.la9iv.mongodb.net/auth-test'
+        )
+    : () =>
+        connectMongo(
+          'mongodb+srv://halc:Q7BtBSWVrrvh4vry@print-shop.la9iv.mongodb.net/auth'
+        );
 
-const cb = () =>
-  connectMongo(
-    'mongodb+srv://halc:j59v4l4daA6li7dY@print-shop.la9iv.mongodb.net/auth'
-  );
+const fn = () => {
+  let ref;
 
-try {
-  server.start(cb);
-  logger.info('server running', 'startttt');
-} catch (error) {
-  logger.error(error, 'start auth');
-}
+  try {
+    ref = server.start(cb);
+    logger.info('auth server running', 'start');
+  } catch (error) {
+    logger.error(error, 'start auth');
+  }
 
-export default server;
+  return ref;
+};
+
+export default fn();

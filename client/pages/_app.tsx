@@ -35,10 +35,16 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
   buildClient();
   const [user, setUser] = useState<UserType>(pageProps.user ?? {});
+  console.log('🚀 ~ file: _app.tsx ~ line 38 ~ MyApp ~ user', user);
+  const [state, setState] = useState({
+    user,
+    setUser,
+  });
 
   const signOutOnClick = async (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
     await signOut(setUser);
+    router.push('/auth/signin');
   };
 
   useEffect(() => {
@@ -99,6 +105,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     };
   }, [router.events]);
 
+  useEffect(() => {
+    setState(prev => ({ ...prev, user }));
+  }, [user]);
+
   return (
     <>
       <DefaultSeo
@@ -109,7 +119,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           cardType: 'summary_large_image',
         }}
       />
-      <AuthContext.Provider value={user}>
+      <AuthContext.Provider value={state}>
         <Header onSignOut={signOutOnClick} />
         <Component {...pageProps} />
       </AuthContext.Provider>
@@ -122,6 +132,10 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
     Component.getInitialProps ? await Component.getInitialProps(ctx) : {}
   ) as Record<string, unknown>;
   const token = ServerCookie(ctx)[process.env.cookie_access_name as string];
+  console.log(
+    '🚀 ~ file: _app.tsx ~ line 127 ~ MyApp.getInitialProps= ~ token',
+    token
+  );
 
   if (token) {
     pageProps.user = getDecoded(token);

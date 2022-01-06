@@ -6,17 +6,8 @@ COPY package.json .
 
 RUN yarn
 
+COPY . .
+
 RUN yarn build
 
-#stage 2
-FROM node:alpine
-
-WORKDIR /app
-
-COPY package.json .
-
-COPY --from=0 /app/.next .
-
-RUN yarn install --production
-
-CMD ["yarn", "--cwd", "services/client", "start"]
+CMD ["yarn", "start"]

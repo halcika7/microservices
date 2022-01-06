@@ -84,9 +84,11 @@ export class SignInService {
       roles: [],
     } as Token;
 
+    const accessToken = this.jwt.signToken(obj);
+
     this.cookie.setRefreshToken(res, this.jwt.signToken(obj, true));
     this.cookie.setAccessToken(res, this.jwt.signToken(obj));
 
-    return 'OK';
+    return accessToken;
   }
 }

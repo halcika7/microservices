@@ -1,10 +1,15 @@
+import { useContext, useState } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { AxiosError } from 'axios';
 
 import { buildClient } from '../../lib/base_axios';
+import { AuthContext } from '../../context/auth';
+import { AuthToken } from '../../lib/decode';
 
 const schema = yup
   .object({
@@ -18,34 +23,43 @@ interface Form {
   password: string;
 }
 
+interface ErrorResponse {
+  message: string;
+  type: string;
+  errors?: Record<string, string>;
+}
+
 const SignIn: NextPage = () => {
   const axios = buildClient();
+  const router = useRouter();
+  const [message, setMessage] = useState<string>('');
+  const { setUser } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
-    clearErrors,
   } = useForm<Form>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<Form> = async signData => {
-    clearErrors();
-    const { data } = await axios.post<{
-      errors?: Record<'email' | 'password', string>;
-    }>('/users/v1/sign-in', signData);
-
-    if (data.errors) {
-      Object.entries(data.errors).forEach(([key, value]) => {
-        setError(key as keyof Form, { message: value });
-      });
+    setMessage('');
+    try {
+      const { data } = await axios.post('/users/v1/sign-in', signData);
+      setUser(new AuthToken(data.result).decodedToken);
+      router.replace('/');
+    } catch (err) {
+      const error = err as AxiosError;
+      const server = error.response?.data as ErrorResponse;
+      setMessage(server.message);
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1>Sign In</h1>
+      {message && <p>{message}</p>}
       <div className="form-group">
         <label htmlFor="email">
           <input type="email" {...register('email')} />

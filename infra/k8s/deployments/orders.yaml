@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+      - name: orders
+        image: halcika/orders
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+          - name: NATS_CLIENT_ID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: NATS_URL
+            value: 'http://nats-srv:4222'
+          - name: NATS_CLUSTER_ID
+            value: ticketing
+          - name: MONGO_URI
+            value: 'mongodb://orders-mongo-srv:27017/orders'
+          - name: access_secret
+            valueFrom:
+              secretKeyRef:
+                name: jwt
+                key: access_secret
+          - name: refresh_secret
+            valueFrom:
+              secretKeyRef:
+                name: jwt
+                key: refresh_secret
+          - name: access_expiry_time
+            valueFrom:
+              secretKeyRef:
+                name: jwt
+                key: access_expiry_time
+          - name: refresh_expiry_time
+            valueFrom:
+              secretKeyRef:
+                name: jwt
+                key: refresh_expiry_time
+          - name: NODE_ENV
+            valueFrom:
+              secretKeyRef:
+                name: node-env
+                key: env
+          - name: cookie_path
+            valueFrom:
+              secretKeyRef:
+                name: cookie
+                key: cookie_path
+          - name: cookie_refresh_name
+            valueFrom:
+              secretKeyRef:
+                name: cookie
+                key: cookie_refresh_name
+          - name: cookie_access_name
+            valueFrom:
+              secretKeyRef:
+                name: cookie
+                key: cookie_access_name
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-srv
+spec:
+  selector:
+    app: orders
+  ports:
+  - port: 3000
+    targetPort: 3000
+    protocol: TCP
+    name: orders
+

@@ -6,15 +6,39 @@ build:
   local:
     push: false
   artifacts:
-  - image: halcika/auth
-    context: .
-    docker:
-      dockerfile: services/auth/dockerfile
-  - image: halcika/client
-    context: .
-    docker:
-      dockerfile: services/client/dockerfile
+    - image: halcika/auth
+      context: auth
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: halcika/tickets
+      context: tickets
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: halcika/orders
+      context: orders
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: halcika/client
+      context: client
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "**/*.{ts,js}"
+            dest: .
 deploy:
   kubectl:
     manifests:
-    - infra/k8s/*
+      - infra/k8s/*
